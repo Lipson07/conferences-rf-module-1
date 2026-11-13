@@ -7,3 +7,6 @@ _qa/
 _build.py
 _assets.py
 _manual.txt
+REPORT_DATA.json
+module_report.json
+TEST_RESULTS.json
