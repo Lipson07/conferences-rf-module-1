@@ -20,6 +20,15 @@
 
 Python 3, Flask, PostgreSQL, HTML5, Jinja2, CSS3, JavaScript и локальный Bootstrap 5.3.8. Пароли хранятся в виде хешей Werkzeug. SQL-запросы используют параметры.
 
+## Получение проекта
+
+Репозиторий: https://github.com/Lipson07/conferences-rf-module-1
+
+```bash
+git clone https://github.com/Lipson07/conferences-rf-module-1.git
+cd conferences-rf-module-1
+```
+
 ## Запуск
 
 Нужны Python 3.12 или совместимая версия и установленный PostgreSQL. Создайте **новую** базу и отдельную роль из административной консоли PostgreSQL:
