@@ -41,9 +41,9 @@ class RoomRepository:
         return self.db.fetch_one("SELECT * FROM rooms WHERE id = %s", (room_id,))
  
     def find_by_name(self, name):
-        return self.db.fetch_one(
-            "SELECT * FROM rooms WHERE LOWER(name) = LOWER(%s)", (name,)
-        )
+        # casefold understands Cyrillic even when PostgreSQL uses locale C.
+        expected = name.strip().casefold()
+        return next((room for room in self.all() if room["name"].casefold() == expected), None)
  
  
 class BookingRepository:

@@ -5,4 +5,5 @@ __pycache__/
 .env
 _qa/
 _build.py
+_assets.py
 _manual.txt

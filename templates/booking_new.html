@@ -4,6 +4,20 @@
 <section class="form-box">
     <h1 class="form-box__title">Новая заявка</h1>
     <form class="form" method="post" novalidate>
+        <div class="form__group">
+            <label class="form-label" for="room_name">Помещение</label>
+            <input class="form-control {{ 'is-invalid' if errors.room }}" id="room_name" name="room_name"
+                   value="{{ form.room_name or '' }}" placeholder="Например: Кинозал «Премьер»" list="roomNames">
+            <datalist id="roomNames">{% for room in rooms %}<option value="{{ room.name }}">{% endfor %}</datalist>
+            <small class="form__hint">Введите название помещения</small>
+            <div class="form__error">{{ errors.room or '' }}</div>
+        </div>
+        <div class="form__group">
+            <label class="form-label" for="start_date">Дата начала конференции</label>
+            <input class="form-control {{ 'is-invalid' if errors.start_date }}" id="start_date" name="start_date"
+                   value="{{ form.start_date or '' }}" placeholder="ДД.ММ.ГГГГ">
+            <div class="form__error">{{ errors.start_date or '' }}</div>
+        </div>
 
         <div class="form__group">
             <label class="form-label" for="participants">Количество участников</label>
