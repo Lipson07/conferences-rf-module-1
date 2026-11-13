@@ -1,0 +1,8 @@
+venv/
+.vendor_python/
+__pycache__/
+*.pyc
+.env
+_qa/
+_build.py
+_manual.txt
