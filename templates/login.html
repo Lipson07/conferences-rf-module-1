@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Вход — Конференции.РФ{% endblock %}
+{% block content %}
+<section class="form-box">
+    <h1 class="form-box__title">Вход в систему</h1>
+    {% if errors.common %}
+        <div class="alert alert-danger message">{{ errors.common }}</div>
+    {% endif %}
+    <form id="loginForm" class="form" method="post" novalidate>
+        <div class="form__group">
+            <label class="form-label" for="login">Логин</label>
+            <input class="form-control {{ 'is-invalid' if errors.login }}" id="login" name="login"
+                   value="{{ form.login or '' }}">
+            <div class="form__error">{{ errors.login or '' }}</div>
+        </div>
+        <div class="form__group">
+            <label class="form-label" for="password">Пароль</label>
+            <input class="form-control {{ 'is-invalid' if errors.password }}" id="password" name="password" type="password">
+            <div class="form__error">{{ errors.password or '' }}</div>
+        </div>
+        <button class="btn btn-primary button w-100" type="submit">Войти</button>
+    </form>
+    <p class="form-box__switch">Еще не зарегистрированы? <a href="{{ url_for('register') }}">Регистрация</a></p>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+{% endblock %}

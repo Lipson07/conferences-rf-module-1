@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Панель администратора — Конференции.РФ{% endblock %}
+{% block content %}
+{% set status_class = {'Новая': 'new', 'Мероприятие назначено': 'planned', 'Завершено': 'done'} %}
+<section class="admin">
+    <h1 class="section-title">Панель администратора</h1>
+ 
+    <!-- Фильтр заявок по статусу (GET-запрос: /admin?status=Новая) -->
+    <form class="admin__filter" method="get">
+        <label class="form-label" for="statusFilter">Показать заявки:</label>
+        <select class="form-select" id="statusFilter" name="status">
+            <option value="">Все</option>
+            {% for s in statuses %}
+                <option value="{{ s }}" {{ 'selected' if s == current_status }}>{{ s }}</option>
+            {% endfor %}
+        </select>
+        <label class="form-label" for="roomFilter">Помещение:</label>
+        <select class="form-select" id="roomFilter" name="room_id">
+            <option value="">Все помещения</option>
+            {% for room in rooms %}
+            <option value="{{ room.id }}" {{ 'selected' if current_room == room.id|string }}>{{ room.name }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-outline-primary button" type="submit">Применить</button>
+    </form>
+ 
+    {% if not bookings %}
+        <p class="admin__empty">Заявок нет.</p>
+    {% endif %}
+ 
+    <!-- Карточки заявок -->
+    <div class="row g-3">
+        {% for b in bookings %}
+        <div class="col-12 col-md-6 col-xl-4">
+            <article class="card booking-card">
+                <div class="card-body">
+                    <h2 class="booking-card__title">Заявка №{{ b.id }}</h2>
+                    <span class="status status--{{ status_class[b.status] }}">{{ b.status }}</span>
+                    <p class="booking-card__row"><b>Клиент:</b> {{ b.full_name }}</p>
+                    <p class="booking-card__row"><b>Телефон:</b> {{ b.phone }}</p>
+                    <p class="booking-card__row"><b>Почта:</b> {{ b.email }}</p>
+                    <p class="booking-card__row"><b>Помещение:</b> {{ b.room_name }}</p>
+                    <p class="booking-card__row"><b>Дата начала:</b> {{ b.start_date_text }}</p>
+                    <p class="booking-card__row"><b>Участников:</b> {{ b.participants }}</p>
+                    <p class="booking-card__row"><b>Оплата:</b> {{ b.payment_method }}</p>
+ 
+                    <!-- Смена статуса сохраняется в базе данных -->
+                    <form class="booking-card__form" method="post"
+                          action="{{ url_for('admin_change_status', booking_id=b.id, status=current_status) }}">
+                        <select class="form-select form-select-sm" name="status" aria-label="Статус заявки">
+                            {% for s in statuses %}
+                                <option value="{{ s }}" {{ 'selected' if s == b.status }}>{{ s }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-primary btn-sm button" type="submit">Сохранить статус</button>
+                    </form>
+                    <form class="booking-card__form" method="post"
+                          action="{{ url_for('admin_delete', booking_id=b.id) }}">
+                        <button class="btn btn-outline-danger btn-sm button" type="submit">Удалить</button>
+                    </form>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Мои заявки — Конференции.РФ{% endblock %}
+{% block content %}
+{# Цвет значка статуса: каждому статусу - свой CSS-модификатор #}
+{% set status_class = {'Новая': 'new', 'Мероприятие назначено': 'planned', 'Завершено': 'done'} %}
+<section class="cabinet">
+    <h1 class="section-title">Мои заявки</h1>
+    <p class="cabinet__hello">Здравствуйте, {{ session.full_name }}!</p>
+    <a class="btn btn-primary button" href="{{ url_for('booking_new') }}">+ Новая заявка</a>
+ 
+    {% if not bookings %}
+        <p class="cabinet__empty">У вас пока нет заявок.</p>
+    {% endif %}
+ 
+    <div class="row g-3 cabinet__list">
+        {% for b in bookings %}
+        <div class="col-12 col-md-6">
+            <article class="card booking-card">
+                <div class="card-body">
+                    <h2 class="booking-card__title">Заявка №{{ b.id }}</h2>
+                    <p class="booking-card__row"><b>Помещение:</b> {{ b.room_name }}</p>
+                    <p class="booking-card__row"><b>Дата начала:</b> {{ b.start_date_text }}</p>
+                    <p class="booking-card__row"><b>Участников:</b> {{ b.participants }}</p>
+                    <p class="booking-card__row"><b>Оплата:</b> {{ b.payment_method }}</p>
+                    <span class="status status--{{ status_class[b.status] }}">{{ b.status }}</span>
+ 
+                    {% if b.status == 'Новая' %}
+                    <form class="booking-card__form" method="post" action="{{ url_for('booking_delete', booking_id=b.id) }}">
+                        <button class="btn btn-outline-danger btn-sm button" type="submit">Удалить заявку</button>
+                    </form>
+                    {% endif %}
+ 
+                    {% if b.review_text %}
+                        <p class="booking-card__review"><b>Ваш отзыв:</b> {{ b.review_text }}</p>
+                    {% elif b.status == 'Завершено' %}
+                    <form class="booking-card__form" method="post" action="{{ url_for('booking_review', booking_id=b.id) }}">
+                        <label class="form-label" for="review{{ b.id }}">Отзыв о мероприятии</label>
+                        <textarea class="form-control" id="review{{ b.id }}" name="text" rows="3" required></textarea>
+                        <button class="btn btn-primary btn-sm button" type="submit">Оставить отзыв</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

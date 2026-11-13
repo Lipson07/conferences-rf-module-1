@@ -1,0 +1,284 @@
+/* =========================================================
+   Стили портала «Конференции.РФ»
+   Имена классов по методологии БЭМ: блок__элемент--модификатор
+   ========================================================= */
+ 
+/* ---------- Переменные: цвета и размеры шрифтов ---------- */
+:root {
+    --color-primary: #1f4e8c;      /* основной синий */
+    --color-primary-dark: #163a69; /* синий при наведении */
+    --color-accent: #f2a541;       /* акцент: тёплый оранжевый */
+    --color-bg: #f5f7fb;           /* светлый фон страницы */
+    --color-text: #1e2430;         /* основной текст */
+    --color-muted: #6b7280;        /* подсказки */
+    --color-error: #c0392b;        /* ошибки */
+ 
+    --font-h1: 2rem;      /* 32px - заголовок страницы */
+    --font-h2: 1.375rem;  /* 22px - заголовок раздела/карточки */
+    --font-text: 1rem;    /* 16px - основной текст */
+    --font-small: 0.875rem; /* 14px - подсказки, подвал */
+ 
+    --radius: 12px;
+}
+ 
+/* ---------- Общие ---------- */
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: var(--font-text);
+}
+ 
+.main {
+    flex: 1;
+    padding-top: 24px;
+    padding-bottom: 40px;
+    animation: fade-in 0.5s ease; /* плавное появление каждой страницы */
+}
+ 
+.section-title,
+.form-box__title,
+.hero__title {
+    font-size: var(--font-h1);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+}
+ 
+/* Bootstrap: перекрашиваем основную кнопку в наш цвет */
+.btn-primary {
+    --bs-btn-bg: var(--color-primary);
+    --bs-btn-border-color: var(--color-primary);
+    --bs-btn-hover-bg: var(--color-primary-dark);
+    --bs-btn-hover-border-color: var(--color-primary-dark);
+    background: var(--color-primary);
+}
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+}
+ 
+a {
+    color: var(--color-primary);
+}
+ 
+/* Микроанимация кнопок при наведении */
+.button {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(31, 78, 140, 0.25);
+}
+ 
+.message {
+    animation: slide-down 0.4s ease;
+}
+ 
+/* ---------- Шапка ---------- */
+.header {
+    background: var(--color-primary);
+}
+.header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: var(--font-h2);
+    font-weight: 700;
+    text-decoration: none;
+}
+.header__logo-img {
+    width: 36px;
+    height: 36px;
+}
+ 
+/* ---------- Меню ---------- */
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.nav__link {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.nav__link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+ 
+/* ---------- Главная: слайдер ---------- */
+.hero__text {
+    color: var(--color-muted);
+    margin-bottom: 20px;
+}
+.slider {
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.slider__img {
+    height: 360px;
+    object-fit: cover; /* картинка заполняет блок без искажений */
+}
+.slider__title {
+    font-size: var(--font-h2);
+    color: #fff;
+    background: rgba(0, 0, 0, 0.45);
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 8px;
+}
+ 
+.rooms {
+    margin-top: 32px;
+}
+ 
+/* ---------- Карточки ---------- */
+.room-card,
+.booking-card {
+    height: 100%;
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.room-card:hover,
+.booking-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.room-card__title,
+.booking-card__title {
+    font-size: var(--font-h2);
+    font-weight: 600;
+    color: var(--color-text);
+}
+.room-card__type {
+    color: var(--color-muted);
+    margin: 0;
+}
+.booking-card__row {
+    margin-bottom: 4px;
+}
+.booking-card__form {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.booking-card__review {
+    margin-top: 12px;
+    font-style: italic;
+}
+ 
+/* ---------- Значок статуса ---------- */
+.status {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: var(--font-small);
+    color: #fff;
+    margin-bottom: 8px;
+}
+.status--new { background: var(--color-accent); }
+.status--planned { background: var(--color-primary); }
+.status--done { background: #2e8b57; }
+ 
+/* ---------- Формы ---------- */
+.form-box {
+    max-width: 480px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+.form__group {
+    margin-bottom: 16px;
+}
+.form__legend {
+    font-size: var(--font-text); /* у legend в Bootstrap крупный шрифт - выравниваем */
+}
+.form__hint {
+    display: block;
+    color: var(--color-muted);
+    font-size: var(--font-small);
+}
+.form__error {
+    color: var(--color-error);
+    font-size: var(--font-small);
+    min-height: 1.2em;
+}
+.form-box__switch {
+    margin-top: 16px;
+    text-align: center;
+}
+ 
+/* ---------- Кабинет и админка ---------- */
+.cabinet__list {
+    margin-top: 16px;
+}
+.admin__filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+.admin__filter .form-select {
+    width: auto;
+}
+ 
+/* ---------- Подвал ---------- */
+.footer {
+    background: var(--color-text);
+    color: #cfd6e4;
+    padding: 16px 0;
+}
+.footer__text {
+    margin: 0;
+    font-size: var(--font-small);
+}
+ 
+/* ---------- Анимации ---------- */
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-down {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+ 
+/* ---------- Смартфон (390x844 и уже) ---------- */
+@media (max-width: 576px) {
+    :root {
+        --font-h1: 1.5rem;   /* 24px */
+        --font-h2: 1.125rem; /* 18px */
+    }
+    .header__inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .slider__img {
+        height: 200px;
+    }
+    .form-box {
+        padding: 16px;
+    }
+}
